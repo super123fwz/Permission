@@ -1,0 +1,3 @@
+include ':permissionX'
+include ':app'
+rootProject.name = "PermissionXJava"
