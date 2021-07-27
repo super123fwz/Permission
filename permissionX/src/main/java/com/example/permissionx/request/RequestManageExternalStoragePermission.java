@@ -42,6 +42,7 @@ public class RequestManageExternalStoragePermission extends BaseTask {
             }
             return;
         }
+        finish();
     }
 
     @Override

@@ -184,7 +184,7 @@ public class PermissionBuilder {
 
     /**
      *立即请求权限，并在回调中处理请求结果。
-     *@param callback 3个参数。同意，同意，拒绝。
+     *@param callback 3个参数。全部批准，授予名单，拒绝名单。
      */
     public void request(RequestCallback callback) {
         requestCallback = callback;
@@ -237,6 +237,8 @@ public class PermissionBuilder {
         }
         currentDialog = dialog;
         dialog.show();
+        boolean a=dialog instanceof DefaultDialog;
+        boolean b=((DefaultDialog) dialog).isPermissionLayoutEmpty();
         if (dialog instanceof DefaultDialog && ((DefaultDialog) dialog).isPermissionLayoutEmpty()) {
             //没有在对话框上显示的有效权限。
             //我们称之为解散。
@@ -421,9 +423,11 @@ public class PermissionBuilder {
      */
     private FragmentManager getFragmentManager() {
         if (fragment != null) {
-            return (fragment.getChildFragmentManager() != null) ? fragment.getChildFragmentManager() : fragmentActivity.getSupportFragmentManager();
+//            return (fragment.getChildFragmentManager() != null) ? fragment.getChildFragmentManager() : fragmentActivity.getSupportFragmentManager();
+            return fragment.getChildFragmentManager();
+        }else{
+            return fragmentActivity.getSupportFragmentManager();
         }
-        return null;
     }
 
     /**
@@ -438,7 +442,7 @@ public class PermissionBuilder {
             return (InvisibleFragment) existedFragment;
         } else {
             InvisibleFragment invisibleFragment = new InvisibleFragment();
-            fragmentManager.beginTransaction().add(invisibleFragment, FRAGMENT_TAG).commitAllowingStateLoss();
+            fragmentManager.beginTransaction().add(invisibleFragment, FRAGMENT_TAG).commitNowAllowingStateLoss();
             return invisibleFragment;
         }
     }

@@ -9,13 +9,13 @@ import java.util.List;
 
 public class ExplainScope {
 
-    private PermissionBuilder pd;
+    private PermissionBuilder pb;
 
     private ChainTask chainTask;
 
-    public ExplainScope(PermissionBuilder pd,ChainTask chainTask){
+    public ExplainScope(PermissionBuilder pb,ChainTask chainTask){
         this.chainTask=chainTask;
-        this.pd=pd;
+        this.pb=pb;
     }
 
     /**
@@ -29,7 +29,7 @@ public class ExplainScope {
      *    负片按钮上的文本。当用户单击时，PermissionX将完成请求。
      */
     public void showRequestReasonDialog(List<String> permissions,String message,String positiveText,String negativeText){
-        pd.showHandlePermissionDialog(chainTask,true,permissions,message,positiveText,negativeText);
+        pb.showHandlePermissionDialog(chainTask,true,permissions,message,positiveText,negativeText);
     }
 
     public void showRequestReasonDialog(List<String> permissions,String message,String positiveText){
@@ -42,9 +42,9 @@ public class ExplainScope {
      *对话框向用户解释为什么需要这些权限。
      */
     public void showRequestReasonDialog(RationaleDialog rationaleDialog){
-        pd.showHandlePermissionDialog(chainTask,true,rationaleDialog);
+        pb.showHandlePermissionDialog(chainTask,true,rationaleDialog);
     }
     public void showRequestReasonDialog(RationaleDialogFragment rationaleDialogFragment){
-        pd.showHandlePermissionDialog(chainTask,true,rationaleDialogFragment);
+        pb.showHandlePermissionDialog(chainTask,true,rationaleDialogFragment);
     }
 }

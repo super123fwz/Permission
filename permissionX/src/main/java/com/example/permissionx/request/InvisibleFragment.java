@@ -7,10 +7,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.example.permissionx.PermissionX;
@@ -25,13 +23,13 @@ public class InvisibleFragment extends Fragment {
     //请求普通权限的代码。
     public static final int REQUEST_NORMAL_PERMISSIONS = 1;
 
-    //请求访问\后台\位置权限的代码。其他人不能通过Android R请求此权限。
+    //请求 ACCESS_BACKGROUND_LOCATION 权限的代码。其他人不能通过Android R请求此权限。
     public static final int REQUEST_BACKGROUND_LOCATION_PERMISSION = 2;
 
     //转发到当前应用的设置页的代码。
     public static final int FORWARD_TO_SETTINGS = 1;
 
-    //请求系统\警报\窗口权限的代码。
+    //请求 SYSTEM_ALERT_WINDOW 权限的代码。
     public static final int ACTION_MANAGE_OVERLAY_PERMISSION = 2;
 
     //请求写入设置权限的代码。
@@ -58,13 +56,6 @@ public class InvisibleFragment extends Fragment {
         requestPermissions(permission.toArray(new String[0]), REQUEST_NORMAL_PERMISSIONS);
     }
 
-    /**
-     * 通过调用{@link Fragment#requestPermissions（String[]，int）}，一次请求访问\u BACKGROUND\u位置，
-     * 并在ActivityCompat.OnRequestPermissionsResultCallback中处理请求结果。
-     *
-     * @param permissionBuilder permissionBuilder的实例。
-     * @param chainTask         当前任务的实例。
-     */
     public void requestAccessBackgroundLocationNow(PermissionBuilder permissionBuilder, ChainTask chainTask) {
         pb = permissionBuilder;
         task = chainTask;
@@ -300,8 +291,8 @@ public class InvisibleFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_NORMAL_PERMISSIONS) {
             onRequestNormalPermissionsResult(permissions, grantResults);
-        } else {
-
+        } else if (requestCode==REQUEST_BACKGROUND_LOCATION_PERMISSION){
+            onRequestBackgroundLocationPermissionResult();
         }
     }
 

@@ -34,7 +34,7 @@ public class RequestWriteSettingsPermission extends BaseTask {
                     }
                 } else {
                     //没有explainReasonCallback的实现，我们不能请求
-                    //此时写入\u设置权限，因为用户无法理解
+                    //此时写入设置权限，因为用户无法理解
                     finish();
                 }
             }else {

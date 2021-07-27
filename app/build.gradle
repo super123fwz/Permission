@@ -25,4 +25,7 @@ dependencies {
     implementation  "com.android.support:appcompat-v7:28.0.0"
     implementation  "com.android.support:design:28.0.0"
     implementation project(':permissionX')
+//    implementation 'com.github.super123fwz:Permission:1.0.0'
+    implementation project(path: ':permissionX')
+//    implementation 'com.permissionx.guolindev:permissionx:1.1.1'
 }

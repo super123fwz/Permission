@@ -8,9 +8,11 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -19,9 +21,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-
 import com.example.permissionx.R;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +37,12 @@ public class DefaultDialog extends RationaleDialog {
     private String negativeText;
     private int lightColor;
     private int darkColor;
-    private View binding;
-    private View viewItem;
-    private ViewHolder viewHolder;
-    private ViewHolderItem viewHolderItem;
+
+    private Button positiveBtn;
+    private Button negativeBtn;
+    private TextView messageText;
+    private LinearLayout permissionsLayout;
+    private LinearLayout negativeLayout;
 
     public DefaultDialog(Context context, List<String> permissions, String message, String positiveText, String negativeText, int lightColor, int darkColor) {
         super(context, R.style.PermissionXDefaultDialog);
@@ -55,8 +59,6 @@ public class DefaultDialog extends RationaleDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.permissionx_default_dialog_layout);
-        binding = LayoutInflater.from(context).inflate(R.layout.permissionx_default_dialog_layout, null, false);
-        viewItem = LayoutInflater.from(context).inflate(R.layout.permissionx_permission_item, null, false);
         init();
         setupText();
         buildPermissionsLayout();
@@ -64,24 +66,13 @@ public class DefaultDialog extends RationaleDialog {
     }
 
     private void init() {
-        if (binding == null) {
-            viewHolder = new ViewHolder();
-            viewHolder.positiveBtn = binding.findViewById(R.id.positiveBtn);
-            viewHolder.negativeBtn = binding.findViewById(R.id.negativeBtn);
-            viewHolder.messageText = binding.findViewById(R.id.messageText);
-            viewHolder.permissionsLayout = binding.findViewById(R.id.permissionsLayout);
-            viewHolder.negativeLayout = binding.findViewById(R.id.negativeLayout);
-        } else {
-            viewHolder = (ViewHolder) binding.getTag();
-        }
-        if (viewItem==null){
-            viewHolderItem=new ViewHolderItem();
-            viewHolderItem.permission_item=viewItem.findViewById(R.id.permission_item);
-            viewHolderItem.permissionText=viewItem.findViewById(R.id.permissionText);
-            viewHolderItem.permissionIcon=viewItem.findViewById(R.id.permissionIcon);
-        } else {
-            viewHolderItem = (ViewHolderItem) viewItem.getTag();
-        }
+        positiveBtn = findViewById(R.id.positiveBtn);
+        negativeBtn = findViewById(R.id.negativeBtn);
+        messageText = findViewById(R.id.messageText);
+        permissionsLayout = findViewById(R.id.permissionsLayout);
+        negativeLayout = findViewById(R.id.negativeLayout);
+
+
     }
 
     /**
@@ -92,7 +83,7 @@ public class DefaultDialog extends RationaleDialog {
     @NonNull
     @Override
     public View getPositiveButton() {
-        return viewHolder.positiveBtn;
+        return positiveBtn;
     }
 
     /**
@@ -105,7 +96,7 @@ public class DefaultDialog extends RationaleDialog {
     @Override
     public View getNegativeButton() {
         if (negativeText != null) {
-            return viewHolder.negativeBtn;
+            return negativeBtn;
         }
         return null;
     }
@@ -129,139 +120,149 @@ public class DefaultDialog extends RationaleDialog {
      * @return
      */
     public boolean isPermissionLayoutEmpty() {
-        return viewHolder.permissionsLayout.getChildCount() == 0;
+        return permissionsLayout.getChildCount() == 0;
     }
 
     /**
      * 在对话框上设置文本和文本颜色。
      */
     private void setupText() {
-        viewHolder.messageText.setText(message);
-        viewHolder.positiveBtn.setText(positiveText);
+        messageText.setText(message);
+        positiveBtn.setText(positiveText);
         if (negativeText != null) {
-            viewHolder.negativeLayout.setVisibility(View.VISIBLE);
-            viewHolder.negativeBtn.setText(negativeText);
+            negativeLayout.setVisibility(View.VISIBLE);
+            negativeBtn.setText(negativeText);
         } else {
-            viewHolder.negativeLayout.setVisibility(View.GONE);
+            negativeLayout.setVisibility(View.GONE);
         }
         if (isDarkTheme()) {
             if (darkColor != -1) {
-                viewHolder.positiveBtn.setTextColor(darkColor);
-                viewHolder.negativeBtn.setTextColor(darkColor);
+                positiveBtn.setTextColor(darkColor);
+                negativeBtn.setTextColor(darkColor);
             }
         } else {
             if (lightColor != -1) {
-                viewHolder.positiveBtn.setTextColor(lightColor);
-                viewHolder.negativeBtn.setTextColor(lightColor);
+                positiveBtn.setTextColor(lightColor);
+                negativeBtn.setTextColor(lightColor);
             }
         }
     }
 
     /**
-     在对话框上设置文本和文本颜色。
+     * 在对话框上设置文本和文本颜色。
      */
-    private void buildPermissionsLayout(){
-        HashSet<String> tempSet=new HashSet<>();
-        int currentVersion= Build.VERSION.SDK_INT;
+    private void buildPermissionsLayout() {
+        HashSet<String> tempSet = new HashSet<>();
+        int currentVersion = Build.VERSION.SDK_INT;
         String permissionGroup;
-        for (String permission: permissions){
-            switch (currentVersion){
+        ViewGroup parent;
+        for (String permission : permissions) {
+            switch (currentVersion) {
                 case Build.VERSION_CODES.Q:
-                    permissionGroup= PermissionMap.permissionMapOnR().get(permission);
+                    permissionGroup = PermissionMap.permissionMapOnR().get(permission);
                     break;
                 case Build.VERSION_CODES.R:
-                    permissionGroup=PermissionMap.permissionMapOnR().get(permission);
+                    permissionGroup = PermissionMap.permissionMapOnR().get(permission);
                     break;
                 default:
                     try {
-                        PermissionInfo permissionInfo=context.getPackageManager().getPermissionInfo(permission,0);
-                        permissionGroup=permissionInfo.group;
+                        PermissionInfo permissionInfo = context.getPackageManager().getPermissionInfo(permission, 0);
+                        permissionGroup = permissionInfo.group;
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
-                        permissionGroup=null;
+                        permissionGroup = null;
                     }
                     break;
             }
-            if ((PermissionMap.allSpecialPermissions().contains(permission)&&!tempSet.contains(permission))
-                    ||(permissionGroup!=null&&!tempSet.contains(permissionGroup))){
-                switch (permission){
+            if ((PermissionMap.allSpecialPermissions().contains(permission) && !tempSet.contains(permission))
+                    || (permissionGroup != null && !tempSet.contains(permissionGroup))) {
+
+                View viewItem = LayoutInflater.from(context).inflate(R.layout.permissionx_permission_item, null, false);
+                TextView permissionText = viewItem.findViewById(R.id.permissionText);
+                ImageView permissionIcon = viewItem.findViewById(R.id.permissionIcon);
+
+                switch (permission) {
                     case Manifest.permission.ACCESS_BACKGROUND_LOCATION:
-                        viewHolderItem.permissionText.setText(context.getString(R.string.permissionx_access_background_location));
-                        viewHolderItem.permissionIcon.setImageResource(R.drawable.permissionx_ic_location);
+                        permissionText.setText(context.getString(R.string.permissionx_access_background_location));
+                        permissionIcon.setImageResource(R.drawable.permissionx_ic_location);
                         break;
                     case Manifest.permission.SYSTEM_ALERT_WINDOW:
-                        viewHolderItem.permissionText.setText(context.getString(R.string.permissionx_system_alert_window));
-                        viewHolderItem.permissionIcon.setImageResource(R.drawable.permissionx_ic_alert);
+                        permissionText.setText(context.getString(R.string.permissionx_system_alert_window));
+                        permissionIcon.setImageResource(R.drawable.permissionx_ic_alert);
                         break;
                     case Manifest.permission.WRITE_SETTINGS:
-                        viewHolderItem.permissionText.setText(context.getString(R.string.permissionx_write_settings));
-                        viewHolderItem.permissionIcon.setImageResource(R.drawable.permissionx_ic_setting);
+                        permissionText.setText(context.getString(R.string.permissionx_write_settings));
+                        permissionIcon.setImageResource(R.drawable.permissionx_ic_setting);
                         break;
                     case Manifest.permission.MANAGE_EXTERNAL_STORAGE:
-                        viewHolderItem.permissionText.setText(context.getString(R.string.permissionx_manage_external_storage));
-                        viewHolderItem.permissionIcon.setImageResource(R.drawable.permissionx_ic_storage);
+                        permissionText.setText(context.getString(R.string.permissionx_manage_external_storage));
+                        permissionIcon.setImageResource(R.drawable.permissionx_ic_storage);
                         break;
                     default:
-
                         try {
-                            viewHolderItem.permissionText.setText(context.getPackageManager().getPermissionGroupInfo(permissionGroup,0).labelRes);
-                            viewHolderItem.permissionIcon.setImageResource(context.getPackageManager().getPermissionGroupInfo(permissionGroup,0).icon);
+                            permissionText.setText(context.getPackageManager().getPermissionGroupInfo(permissionGroup, 0).labelRes);
+                            permissionIcon.setImageResource(context.getPackageManager().getPermissionGroupInfo(permissionGroup, 0).icon);
                         } catch (PackageManager.NameNotFoundException e) {
                             e.printStackTrace();
                         }
 
                         break;
                 }
-                if (isDarkTheme()){
-                    if (darkColor!=-1){
-                        viewHolder.positiveBtn.setTextColor(darkColor);
-                        viewHolder.negativeBtn.setTextColor(darkColor);
+                if (isDarkTheme()) {
+                    if (darkColor != -1) {
+                        positiveBtn.setTextColor(darkColor);
+                        negativeBtn.setTextColor(darkColor);
                     }
-                }else{
-                    if (lightColor!=-1){
-                        viewHolder.positiveBtn.setTextColor(lightColor);
-                        viewHolder.negativeBtn.setTextColor(lightColor);
+                } else {
+                    if (lightColor != -1) {
+                        positiveBtn.setTextColor(lightColor);
+                        negativeBtn.setTextColor(lightColor);
                     }
                 }
+                permissionsLayout.addView(viewItem);
+                tempSet.add(permissionGroup != null ? permissionGroup : permission);
             }
         }
+
     }
 
     /**
-     *要显示的设置对话框窗口。在纵向和横向模式下控制不同的窗口大小。
+     * 要显示的设置对话框窗口。在纵向和横向模式下控制不同的窗口大小。
      */
     private void setupWindow() {
         int width = context.getResources().getDisplayMetrics().widthPixels;
         int height = context.getResources().getDisplayMetrics().heightPixels;
         Window window = getWindow();
 
-            if (width < height) {
-                if (window != null) {
-                    WindowManager.LayoutParams attributes = window.getAttributes();
-                    window.setGravity(Gravity.CENTER);
-                    attributes.width = (int) (width * 0.86);
-                    window.setAttributes(attributes);
-                }
-            } else {
-                if (window != null) {
-                    WindowManager.LayoutParams attributes = window.getAttributes();
-                    window.setGravity(Gravity.CENTER);
-                    attributes.width = (int) (width * 0.6);
-                    window.setAttributes(attributes);
-                }
+        if (width < height) {
+            if (window != null) {
+                WindowManager.LayoutParams attributes = window.getAttributes();
+                window.setGravity(Gravity.CENTER);
+                attributes.width = (int) (width * 0.86);
+                window.setAttributes(attributes);
             }
+        } else {
+            if (window != null) {
+                WindowManager.LayoutParams attributes = window.getAttributes();
+                window.setGravity(Gravity.CENTER);
+                attributes.width = (int) (width * 0.6);
+                window.setAttributes(attributes);
+            }
+        }
 
 
     }
 
     /**
      * 目前我们在黑暗主题与否。
+     *
      * @return
      */
     private boolean isDarkTheme() {
         int flag = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return flag == Configuration.UI_MODE_NIGHT_YES;
     }
+
     class ViewHolder {
         private Button positiveBtn;
         private Button negativeBtn;
@@ -269,9 +270,9 @@ public class DefaultDialog extends RationaleDialog {
         private LinearLayout permissionsLayout;
         private LinearLayout negativeLayout;
     }
-    class ViewHolderItem{
+
+    class ViewHolderItem {
         private TextView permissionText;
         private ImageView permissionIcon;
-        private LinearLayout permission_item;
     }
 }

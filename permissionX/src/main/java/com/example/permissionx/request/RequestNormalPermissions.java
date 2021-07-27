@@ -43,7 +43,7 @@ public class RequestNormalPermissions extends BaseTask {
 
     @Override
     public void requestAgain(List<String> permissions) {
-        Set<String> permissionsToRequestAgain=new HashSet<>();
+        Set<String> permissionsToRequestAgain=new HashSet<>(pb.grantedPermissions);
         permissionsToRequestAgain.addAll(permissions);
         pb.requestNow(permissionsToRequestAgain,this);
     }

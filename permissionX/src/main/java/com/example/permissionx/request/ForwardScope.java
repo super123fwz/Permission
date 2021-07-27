@@ -7,13 +7,13 @@ import java.util.List;
 
 public class ForwardScope {
 
-    private PermissionBuilder pd;
+    private PermissionBuilder pb;
 
     private ChainTask chainTask;
 
-    public ForwardScope(PermissionBuilder pd,ChainTask chainTask){
+    public ForwardScope(PermissionBuilder pb,ChainTask chainTask){
         this.chainTask=chainTask;
-        this.pd=pd;
+        this.pb=pb;
     }
 
     /**
@@ -27,7 +27,7 @@ public class ForwardScope {
      *    负片按钮上的文本。当用户单击时，PermissionX将完成请求。
      */
     public void showRequestReasonDialog(List<String> permissions, String message, String positiveText, String negativeText){
-        pd.showHandlePermissionDialog(chainTask,false,permissions,message,positiveText,negativeText);
+        pb.showHandlePermissionDialog(chainTask,false,permissions,message,positiveText,negativeText);
     }
 
     public void showRequestReasonDialog(List<String> permissions,String message,String positiveText){
@@ -40,9 +40,9 @@ public class ForwardScope {
      *对话框向用户解释为什么需要这些权限。
      */
     public void showRequestReasonDialog(RationaleDialog rationaleDialog){
-        pd.showHandlePermissionDialog(chainTask,false,rationaleDialog);
+        pb.showHandlePermissionDialog(chainTask,false,rationaleDialog);
     }
     public void showRequestReasonDialog(RationaleDialogFragment rationaleDialogFragment){
-        pd.showHandlePermissionDialog(chainTask,false,rationaleDialogFragment);
+        pb.showHandlePermissionDialog(chainTask,false,rationaleDialogFragment);
     }
 }
