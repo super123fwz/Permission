@@ -27,9 +27,9 @@ public class RequestSystemAlertWindowPermission extends BaseTask {
                     requestList.add(Manifest.permission.SYSTEM_ALERT_WINDOW);
                     if (pb.explainReasonCallbackWithBeforeParam != null) {
                         //回调ExplainReasonCallbackWithBeforeParam在ExplainReasonCallback之前
-                        pb.explainReasonCallbackWithBeforeParam.onExplainReason(explainReasonScope, requestList, true);
+                        pb.explainReasonCallbackWithBeforeParam.onExplainReason(getExplainScope(), requestList, true);
                     } else {
-                        pb.explainReasonCallback.onExplainReason(explainReasonScope, requestList);
+                        pb.explainReasonCallback.onExplainReason(getExplainScope(), requestList);
                     }
                 } else {
                     //没有explainReasonCallback的实现，我们不能请求

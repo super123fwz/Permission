@@ -28,9 +28,9 @@ public class RequestWriteSettingsPermission extends BaseTask {
                     List<String> requestList = new ArrayList<>();
                     requestList.add(Manifest.permission.WRITE_SETTINGS);
                     if (pb.explainReasonCallbackWithBeforeParam != null) {
-                        pb.explainReasonCallbackWithBeforeParam.onExplainReason(explainReasonScope, requestList, true);
+                        pb.explainReasonCallbackWithBeforeParam.onExplainReason(getExplainScope(), requestList, true);
                     } else {
-                        pb.explainReasonCallback.onExplainReason(explainReasonScope, requestList);
+                        pb.explainReasonCallback.onExplainReason(getExplainScope(), requestList);
                     }
                 } else {
                     //没有explainReasonCallback的实现，我们不能请求

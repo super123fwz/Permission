@@ -408,6 +408,15 @@ public class PermissionBuilder {
     }
 
     /**
+     * 从当前碎片管理器中删除不可见碎片。
+     */
+    public void removeInvisibleFragment(){
+        Fragment existedFragment = getFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+        if (existedFragment !=null){
+            getFragmentManager().beginTransaction().remove(existedFragment).commitAllowingStateLoss();
+        }
+    }
+    /**
      * 获取当前应用程序的targetSdkVersion。
      *
      * @return 当前应用的targetSdkVersion。

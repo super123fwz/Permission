@@ -96,6 +96,7 @@ public abstract class BaseTask implements ChainTask {
             if (pb.requestCallback != null) {
                 pb.requestCallback.onResult(deniedList.isEmpty(), new ArrayList<String>(pb.grantedPermissions), deniedList);
             }
+            pb.removeInvisibleFragment();
         }
     }
 }

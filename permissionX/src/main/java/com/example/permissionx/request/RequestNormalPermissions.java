@@ -31,9 +31,9 @@ public class RequestNormalPermissions extends BaseTask {
             pb.explainReasonBeforeRequest = false;
             pb.deniedPermissions.addAll(requestList);
             if (pb.explainReasonCallbackWithBeforeParam != null) {
-                pb.explainReasonCallbackWithBeforeParam.onExplainReason(explainReasonScope, requestList, true);
+                pb.explainReasonCallbackWithBeforeParam.onExplainReason(getExplainScope(), requestList, true);
             } else {
-                pb.explainReasonCallback.onExplainReason(explainReasonScope, requestList);
+                pb.explainReasonCallback.onExplainReason(getExplainScope(), requestList);
             }
         } else {
             pb.requestNow(pb.normalPermissions, this);

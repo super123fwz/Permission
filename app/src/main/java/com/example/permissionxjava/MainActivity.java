@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,20 +35,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activity = this;
         setContentView(R.layout.activity_main);
-        permissBt=findViewById(R.id.permissBt);
+        permissBt = findViewById(R.id.permissBt);
         permissBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PermissionX.init(activity)
-                        .permissions(Manifest.permission.CAMERA)
-                        .explainReasonBeforeRequest()
+                        .permissions(Manifest.permission.CAMERA, Manifest.permission.READ_CONTACTS,Manifest.permission.CALL_PHONE)
+//                        .explainReasonBeforeRequest()
                         .onExplainRequestReason(new ExplainReasonCallback() {
                             @Override
                             public void onExplainReason(@NonNull ExplainScope scope, @NonNull List<String> deniedList) {
-                                scope.showRequestReasonDialog(deniedList,"要请求这些权限","我知道了","取消");
+                                scope.showRequestReasonDialog(deniedList, "这些权限将要申请", "继续申请", "取消");
                             }
                         })
-
                         .onForwardToSettings(new ForwardToSettingsCallback() {
                             @Override
                             public void onForwardToSettings(@NonNull ForwardScope scope, @NonNull List<String> deniedList) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         .request(new RequestCallback() {
                             @Override
                             public void onResult(boolean allGranted, @NonNull List<String> grantedList, @NonNull List<String> deniedList) {
-                                Log.e(TAG,"run");
+                                Log.e(TAG, "run");
                                 if (allGranted) {
                                     Log.e(TAG, "授予");
                                 } else {
@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
 
             }
         });

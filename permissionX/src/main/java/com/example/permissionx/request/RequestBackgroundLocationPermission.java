@@ -34,9 +34,9 @@ public class RequestBackgroundLocationPermission extends BaseTask {
                     List<String> requestList = new ArrayList<>();
                     requestList.add(ACCESS_BACKGROUND_LOCATION);
                     if (pb.explainReasonCallbackWithBeforeParam != null) {
-                        pb.explainReasonCallbackWithBeforeParam.onExplainReason(explainReasonScope, requestList, true);
+                        pb.explainReasonCallbackWithBeforeParam.onExplainReason(getExplainScope(), requestList, true);
                     } else {
-                        pb.explainReasonCallback.onExplainReason(explainReasonScope, requestList);
+                        pb.explainReasonCallback.onExplainReason(getExplainScope(), requestList);
                     }
                 } else {
                     requestAgain(null);
