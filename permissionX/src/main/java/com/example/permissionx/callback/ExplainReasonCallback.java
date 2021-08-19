@@ -6,6 +6,8 @@ import com.example.permissionx.request.ExplainScope;
 
 import java.util.List;
 
+
+
 public interface ExplainReasonCallback {
 
     /**
@@ -13,5 +15,5 @@ public interface ExplainReasonCallback {
      *@param scope 显示基本原理对话框的范围。
      *@param deniedList 您应该解释的权限。
      */
-    void onExplainReason(@NonNull  ExplainScope scope, @NonNull List<String> deniedList);
+    void onExplainReason(@NonNull ExplainScope scope, @NonNull List<String> deniedList);
 }

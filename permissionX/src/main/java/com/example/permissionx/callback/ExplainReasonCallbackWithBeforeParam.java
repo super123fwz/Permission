@@ -6,6 +6,7 @@ import com.example.permissionx.request.ExplainScope;
 
 import java.util.List;
 
+
 public interface ExplainReasonCallbackWithBeforeParam {
 
     /**
@@ -17,5 +18,5 @@ public interface ExplainReasonCallbackWithBeforeParam {
      *@param请求前
      *指明是在权限请求之前还是之后。使用{@link PermissionBuilder #explainReasonBeforeRequest()}
      */
-    void onExplainReason(@NonNull ExplainScope scope,@NonNull List<String> deniedList, boolean beforeRequest);
+    void onExplainReason(@NonNull ExplainScope scope, @NonNull List<String> deniedList, boolean beforeRequest);
 }

@@ -1,7 +1,6 @@
 package com.example.permissionx.dialog;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
 

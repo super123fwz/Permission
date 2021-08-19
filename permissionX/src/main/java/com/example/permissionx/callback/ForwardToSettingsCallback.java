@@ -6,6 +6,8 @@ import com.example.permissionx.request.ForwardScope;
 
 import java.util.List;
 
+
+
 public interface ForwardToSettingsCallback {
 
     /**
@@ -15,5 +17,5 @@ public interface ForwardToSettingsCallback {
      *@param拒绝列表
      *设置中应允许的权限。
      */
-    void onForwardToSettings(@NonNull ForwardScope scope,@NonNull List<String> deniedList);
+    void onForwardToSettings(@NonNull ForwardScope scope, @NonNull List<String> deniedList);
 }

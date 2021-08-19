@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-
 import java.util.List;
 
 /**
@@ -30,7 +29,8 @@ public abstract class RationaleDialog extends Dialog {
      *您的对话框必须有一个积极的按钮继续请求和一个可选的消极按钮取消请求。
      * @return 对话框上正按钮的实例。
      */
-    abstract public @NonNull View getPositiveButton();
+    abstract public @NonNull
+    View getPositiveButton();
 
     /**
      *返回对话框上负按钮的实例。
@@ -38,11 +38,13 @@ public abstract class RationaleDialog extends Dialog {
      *在这种情况下，您可以简单地返回null。
      *@return 对话框中正按钮的实例，如果对话框中没有负按钮，则返回null。
      */
-    abstract public @NonNull View getNegativeButton();
+    abstract public @NonNull
+    View getNegativeButton();
 
     /**
      *提供请求权限。这些权限应该是显示在“基本原理”对话框上的权限。
      * @return 要请求的权限列表。
      */
-    abstract public @NonNull List<String> getPermissionsToRequest();
+    abstract public @NonNull
+    List<String> getPermissionsToRequest();
 }

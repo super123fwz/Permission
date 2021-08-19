@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+
 public class PermissionMediator {
     private FragmentActivity fragmentActivity = null;
     private Fragment fragment = null;

@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +19,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.example.permissionx.R;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+
+
+
 
 public class DefaultDialog extends RationaleDialog {
 
@@ -263,16 +262,4 @@ public class DefaultDialog extends RationaleDialog {
         return flag == Configuration.UI_MODE_NIGHT_YES;
     }
 
-    class ViewHolder {
-        private Button positiveBtn;
-        private Button negativeBtn;
-        private TextView messageText;
-        private LinearLayout permissionsLayout;
-        private LinearLayout negativeLayout;
-    }
-
-    class ViewHolderItem {
-        private TextView permissionText;
-        private ImageView permissionIcon;
-    }
 }

@@ -3,7 +3,6 @@ package com.example.permissionx.request;
 import android.Manifest;
 import android.os.Build;
 import android.provider.Settings;
-import android.text.style.BulletSpan;
 
 import java.util.ArrayList;
 import java.util.List;
