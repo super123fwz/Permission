@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+
+
 public class InvisibleFragment extends Fragment {
 
     //请求普通权限的代码。
@@ -70,7 +72,7 @@ public class InvisibleFragment extends Fragment {
     public void requestSystemAlertWindowPermissionNow(PermissionBuilder permissionBuilder, ChainTask chainTask) {
         pb = permissionBuilder;
         task = chainTask;
-        if (Settings.canDrawOverlays(getContext())) {
+        if (!Settings.canDrawOverlays(getContext())) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
             startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION);
         } else {

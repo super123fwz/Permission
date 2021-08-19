@@ -1,7 +1,5 @@
 package com.example.permissionx.request;
 
-import com.example.permissionx.callback.ExplainReasonCallback;
-
 import java.util.List;
 
 /**

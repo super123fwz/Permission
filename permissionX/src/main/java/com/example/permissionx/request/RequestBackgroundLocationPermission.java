@@ -8,6 +8,8 @@ import com.example.permissionx.PermissionX;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class RequestBackgroundLocationPermission extends BaseTask {
 
     public static final String ACCESS_BACKGROUND_LOCATION = "android.permission.ACCESS_BACKGROUND_LOCATION";

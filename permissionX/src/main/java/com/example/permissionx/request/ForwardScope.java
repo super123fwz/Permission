@@ -1,9 +1,12 @@
 package com.example.permissionx.request;
 
+
 import com.example.permissionx.dialog.RationaleDialog;
 import com.example.permissionx.dialog.RationaleDialogFragment;
 
 import java.util.List;
+
+
 
 public class ForwardScope {
 

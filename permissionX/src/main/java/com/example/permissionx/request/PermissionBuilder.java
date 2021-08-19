@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-
 import com.example.permissionx.callback.ExplainReasonCallback;
 import com.example.permissionx.callback.ExplainReasonCallbackWithBeforeParam;
 import com.example.permissionx.callback.ForwardToSettingsCallback;
@@ -20,10 +19,11 @@ import com.example.permissionx.dialog.DefaultDialog;
 import com.example.permissionx.dialog.RationaleDialog;
 import com.example.permissionx.dialog.RationaleDialogFragment;
 
-import java.lang.reflect.InvocationHandler;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+
 
 public class PermissionBuilder {
 
@@ -158,7 +158,7 @@ public class PermissionBuilder {
             this.fragmentActivity = fragmentActivity;
         }
         if (fragmentActivity==null&&fragment!=null){
-            this.fragmentActivity=fragment.requireActivity();
+            this.fragmentActivity=fragment.getActivity();
         }
         this.fragment = fragment;
         this.normalPermissions = normalPermissions;
@@ -296,7 +296,7 @@ public class PermissionBuilder {
             chainTask.finish();
             return;
         }
-        dialogFragment.showNow(getFragmentManager(), "PermissionXRationaleDialogFragment");
+        dialogFragment.show(getFragmentManager(), "PermissionXRationaleDialogFragment");
         View positiveButton = dialogFragment.getPositiveButton();
         View negativeButton = dialogFragment.getNegativeButton();
         dialogFragment.setCancelable(false);
@@ -445,13 +445,13 @@ public class PermissionBuilder {
      * 别担心。这个很轻。
      */
     private InvisibleFragment getInvisibleFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment existedFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG);
+//        FragmentManager fragmentManager = getFragmentManager();
+        Fragment existedFragment = getFragmentManager().findFragmentByTag(FRAGMENT_TAG);
         if (existedFragment != null) {
             return (InvisibleFragment) existedFragment;
         } else {
             InvisibleFragment invisibleFragment = new InvisibleFragment();
-            fragmentManager.beginTransaction().add(invisibleFragment, FRAGMENT_TAG).commitNowAllowingStateLoss();
+            getFragmentManager().beginTransaction().add(invisibleFragment, FRAGMENT_TAG).commitNowAllowingStateLoss();
             return invisibleFragment;
         }
     }
