@@ -119,7 +119,7 @@ public class InvisibleFragment extends Fragment {
         List<String> forwardList = new ArrayList<>(); //在请求权限中永久保留被拒绝的权限。
         for (int i = 0; i < permissions.length; i++) {
             String permission = permissions[i];
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                 pb.grantedPermissions.add(permission);
                 //从PermissionBuilder中设置的deniedPermissions和permanentDeniedPermissions中删除授予的权限。
                 pb.deniedPermissions.remove(permission);
